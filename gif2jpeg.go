@@ -10,9 +10,15 @@ import (
 	"path"
 )
 
+/**
+ * @Description:
+ * @param sourceGif 源图地址
+ * @param frame 取第几帧，传0或者过大过小都会取默认值
+ * @return filepath 返回的生成的文件地址
+ * @return err
+ */
 
-
-func TransGif2Jpeg(sourceGif string)  (filepath string,err error) {
+func TransGif2Jpeg(sourceGif string,frame int)  (filepath string,err error) {
 	gifData, err := os.Open(sourceGif)
 	if err != nil {
 		return "",err
@@ -34,9 +40,12 @@ func TransGif2Jpeg(sourceGif string)  (filepath string,err error) {
 	if l%2 != 0 {
 		l += 1
 	}
+	if frame <= 0 || frame > l {
+		frame = l /2
+	}
 
 	p1 := image.NewPaletted(image.Rect(0, 0, all.Config.Width,all.Config.Height), palette.Plan9)
-	draw.Draw(p1, p1.Bounds(), 	all.Image[l/2], image.ZP, draw.Src) //添加图片
+	draw.Draw(p1, p1.Bounds(), 	all.Image[frame], image.ZP, draw.Src) //添加图片
 
 	op:= jpeg.Options{90}
 	jpeg.Encode(jp,p1,&op)
