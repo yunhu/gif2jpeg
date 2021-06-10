@@ -45,7 +45,7 @@ func TransGif2Jpeg(sourceGif string,frame int)  (filepath string,err error) {
 	}
 
 	p1 := image.NewPaletted(image.Rect(0, 0, all.Config.Width,all.Config.Height), palette.Plan9)
-	draw.Draw(p1, p1.Bounds(), 	all.Image[frame], image.ZP, draw.Src) //添加图片
+	draw.Draw(p1, p1.Bounds(), 	all.Image[frame-1], image.ZP, draw.Src) //添加图片
 
 	op:= jpeg.Options{90}
 	jpeg.Encode(jp,p1,&op)
